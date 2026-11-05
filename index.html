@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oswaldo Cruz · Projects</title>
+<meta name="description" content="Oswaldo Cruz, UC Santa Cruz student building AI assistants, trading tools, and tutors that make markets make sense.">
+<meta property="og:title" content="Oswaldo Cruz · Projects">
+<meta property="og:description" content="AI assistants, trading tools, and tutors that make markets make sense.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23000' stroke='%23fff' stroke-width='4'/%3E%3Ctext x='32' y='41' font-family='Arial' font-size='26' text-anchor='middle' fill='%23fff'%3Eoz%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* One black-and-white look for the whole page, matching the hero */
+  :root {
+    color-scheme: dark;
+    --bg: #000000;
+    --surface: #111111;
+    --line: #2a2a2a;
+    --text: #ffffff;
+    --muted: #b3b3b3;
+    --faint: #7a7a7a;
+    --accent: #ffffff;
+    --green: #ffffff;
+    --green-soft: transparent;
+    --red: #ff8a8a;
+    --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    --sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: var(--text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { opacity: 0.6; }
+  h1, h2, h3 { line-height: 1.15; margin: 0; font-weight: 400; }
+
+  /* Hero: always dark, whatever the theme */
+  .hero { min-height: 100vh; min-height: 100svh; background: #000; color: #fff; display: flex; flex-direction: column; font-family: "Space Grotesk", var(--sans); }
+  .hero-nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; }
+  .hero-nav ul { list-style: none; display: flex; gap: 32px; margin: 0; padding: 0; font-size: 20px; }
+  .hero-nav a { color: #fff; text-decoration: none; }
+  .hero-nav a:hover { text-decoration: none; opacity: 0.6; }
+  .mark { width: 56px; height: 56px; border: 2.5px solid #fff; border-radius: 50%; display: grid; place-items: center; font-size: 20px; font-weight: 500; letter-spacing: -0.04em; transition: transform 0.4s; }
+  .mark:hover { transform: rotate(-14deg); }
+  .hero-text { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 24px; }
+  .hero-text h1 { max-width: 16em; text-align: center; font-size: clamp(34px, 5.4vw, 72px); font-weight: 400; line-height: 1.12; letter-spacing: -0.02em; }
+  .hero-text svg { width: 0.8em; height: 0.8em; vertical-align: -0.06em; margin: 0 0.08em; }
+  .hero-down { align-self: center; color: #fff; padding: 24px; animation: nudge 2s ease-in-out infinite; }
+  .hero-down svg { width: 56px; height: 28px; display: block; }
+  @keyframes nudge { 50% { transform: translateY(8px); } }
+  @media (prefers-reduced-motion: reduce) { .hero-down { animation: none; } }
+
+  .layout { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+  /* Case studies */
+  main { padding: 40px 0 80px; }
+  .eyebrow { font-size: clamp(32px, 4.5vw, 56px); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 48px; padding-top: 48px; border-top: 1px solid var(--line); }
+  .case { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: start; padding: 56px 0; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+  .case:nth-of-type(even) .visual { order: 2; }
+  .visual { background: var(--surface); border-radius: 20px; padding: 32px; min-height: 300px; display: flex; align-items: center; justify-content: center; position: sticky; top: 24px; }
+  .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; font-size: 15px; color: var(--faint); }
+  .case h2 { font-size: clamp(30px, 3.6vw, 46px); letter-spacing: -0.02em; margin-top: 14px; }
+  .summary { color: var(--muted); margin: 14px 0 0; font-size: 20px; line-height: 1.45; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .tag { font-size: 14px; border: 1px solid #555; color: var(--text); padding: 4px 14px; border-radius: 999px; }
+  .story { margin-top: 32px; }
+  .story > div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 16px; padding: 18px 0; border-top: 1px solid var(--line); }
+  .story h3 { font-size: 15px; color: var(--faint); }
+  .story p, .story ul { margin: 0; font-size: 16px; color: var(--muted); }
+  .story ul { padding-left: 18px; }
+  .story li { margin-bottom: 4px; }
+  .credit { margin: 8px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--faint); }
+  .credit a { color: var(--muted); }
+
+  .eyebrow { scroll-margin-top: 0; }
+  .about { padding: 64px 0 96px; border-top: 1px solid var(--line); scroll-margin-top: 0; }
+  .about .eyebrow { border-top: 0; padding-top: 0; margin-bottom: 24px; }
+  .about .intro { color: var(--text); font-size: clamp(22px, 2.6vw, 32px); line-height: 1.3; letter-spacing: -0.01em; max-width: 26em; margin: 0 0 48px; }
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 48px; }
+  .about h3 { font-size: 15px; color: var(--faint); padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .about ul { list-style: none; margin: 0; padding: 0; }
+  .about li { padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .about li b { display: block; color: var(--text); font-weight: 500; font-size: 18px; margin-bottom: 2px; }
+  .about .when { display: block; font-size: 14px; color: var(--faint); margin-bottom: 6px; }
+  .about .looking { color: var(--muted); font-size: 18px; margin: -32px 0 48px; }
+  .about .looking::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #fff; margin-right: 10px; vertical-align: 2px; }
+  .skills { margin-top: 14px; }
+  .contact-list a { font-size: 20px; text-decoration: none; }
+  .contact-list a:hover { text-decoration: underline; opacity: 1; }
+
+  /* Mini mockups inside the visuals */
+  .mock { width: 100%; max-width: 520px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px; font: 12px var(--mono); color: var(--muted); }
+  .mock-bar { display: flex; gap: 6px; margin-bottom: 12px; }
+  .mock-bar span { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .agents { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .agent { border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+  .agent b { display: block; color: var(--text); font-weight: 500; }
+  .arrow { text-align: center; color: var(--faint); margin: 6px 0; }
+  .verdict { border: 1px solid var(--green); color: var(--green); background: var(--green-soft); border-radius: 6px; padding: 8px; text-align: center; }
+  .check { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+  .check:last-child { border-bottom: 0; }
+  .ok { color: var(--green); } .no { color: var(--red); }
+  .chat { display: flex; flex-direction: column; gap: 8px; font-family: var(--sans); font-size: 13px; }
+  .bubble { max-width: 80%; padding: 8px 12px; border-radius: 12px; }
+  .bubble.me { align-self: flex-end; background: var(--accent); color: var(--bg); border-bottom-right-radius: 3px; }
+  .bubble.tutor { align-self: flex-start; background: var(--surface); color: var(--text); border-bottom-left-radius: 3px; }
+  .bars { display: flex; align-items: flex-end; gap: 18px; height: 110px; padding: 0 8px; border-bottom: 1px solid var(--line); }
+  .bar { flex: 1; display: flex; gap: 4px; align-items: flex-end; height: 100%; }
+  .bar i { flex: 1; border-radius: 3px 3px 0 0; background: var(--accent); }
+  .bar i + i { background: var(--line); }
+  .bar-labels { display: flex; gap: 18px; padding: 6px 8px 0; }
+  .bar-labels span { flex: 1; text-align: center; }
+  .cam { position: relative; height: 150px; border: 1px solid var(--line); border-radius: 6px; background: #0a0a0a; margin-bottom: 10px; }
+  .cam-box { position: absolute; border: 1.5px solid var(--text); border-radius: 3px; }
+  .cam-box span { position: absolute; top: -20px; left: -1.5px; background: var(--text); color: var(--bg); padding: 0 6px; font-size: 11px; white-space: nowrap; }
+  .cam-mode { position: absolute; right: 8px; bottom: 8px; color: var(--faint); }
+
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .layout { padding: 0 16px; }
+    main { padding-top: 24px; }
+    .case { grid-template-columns: 1fr; gap: 28px; padding: 40px 0; }
+    .case:nth-of-type(even) .visual { order: 0; }
+    .story > div { grid-template-columns: 1fr; gap: 6px; }
+    .visual { padding: 16px; min-height: 0; position: static; }
+    .agents { grid-template-columns: repeat(2, 1fr); }
+    .hero-nav { padding: 16px; }
+    .hero-nav ul { gap: 18px; font-size: 16px; }
+    .mark { width: 44px; height: 44px; font-size: 16px; border-width: 2px; }
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <nav class="hero-nav">
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://github.com/oszzycruzq">GitHub</a></li>
+    </ul>
+    <a class="mark" href="#" aria-label="Back to top">oz</a>
+  </nav>
+  <div class="hero-text">
+    <h1>I'm Oswaldo Cruz, and these are my projects:
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v4"/></svg>
+      AI assistants,
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+      trading tools, and
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 9L12 4 2 9l10 5 10-5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/></svg>
+      tutors that make markets make sense
+    </h1>
+  </div>
+  <a class="hero-down" href="#work" aria-label="See my work">
+    <svg viewBox="0 0 56 28" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 2l26 24L54 2"/></svg>
+  </a>
+</header>
+
+<div class="layout">
+
+  <main>
+    <h2 class="eyebrow" id="work">Selected work</h2>
+
+    <!--
+      To add a project: copy one <article class="case"> block, give it a new id,
+      and renumber the "01 · ..." labels so they stay in order.
+    -->
+
+    <article class="case" id="jenny">
+      <div class="visual">
+        <div class="mock" aria-hidden="true">
+          <div class="mock-bar"><span></span><span></span><span></span></div>
+          <div class="cam">
+            <div class="cam-box" style="left:14%;top:22%;width:30%;height:66%"><span>face 98%</span></div>
+            <div class="cam-box" style="left:58%;top:30%;width:20%;height:42%"><span>gesture: thumbs up</span></div>
+            <span class="cam-mode">[G] gesture · [V] vision</span>
+          </div>
+          <div class="chat">
+            <div class="bubble me">Jenny, what am I holding?</div>
+            <div class="bubble tutor">Looks like a coffee mug. Want me to set a timer for your break?</div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span>01 · AI assistant</span><span>2026</span></div>
+        <h2>Jenny</h2>
+        <p class="summary">A desktop AI assistant you can talk to, wave at, and show things to through your webcam.</p>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">MediaPipe</span><span class="tag">Claude API</span><span class="tag">Speech recognition</span>
+        </div>
+        <div class="story">
+          <div>
+            <h3>Problem</h3>
+            <p>Most assistants only work through typing or a wake word. I wanted one that could also see me and react to what I show it.</p>
+          </div>
+          <div>
+            <h3>What I built</h3>
+            <ul>
+              <li>Speech to text and spoken replies</li>
+              <li>Real-time hand gesture recognition with MediaPipe</li>
+              <li>Face and object detection with OpenCV</li>
+              <li>Claude as the brain, with Gesture and Vision modes you switch between</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Result</h3>
+            <p>One app that listens, watches, and answers out loud, combining four separate experiments into a single assistant.</p>
+          </div>
+        </div>
+        <p class="credit"><a href="https://github.com/oszzycruzq/Jenny">View the code on GitHub</a></p>
+      </div>
+    </article>
+
+    <article class="case" id="trading-agents-web">
+      <div class="visual">
+        <div class="mock" aria-hidden="true">
+          <div class="mock-bar"><span></span><span></span><span></span></div>
+          <div class="agents">
+            <div class="agent"><b>Fundamentals</b>reading 10-K</div>
+            <div class="agent"><b>Sentiment</b>Claude scoring</div>
+            <div class="agent"><b>News</b>free sources</div>
+            <div class="agent"><b>Technical</b>RSI, MACD</div>
+          </div>
+          <div class="arrow">↓ bull vs bear debate ↓</div>
+          <div class="verdict">Trader decision: BUY · risk team approved</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span>02 · Web app</span><span>2026</span></div>
+        <h2>TradingAgents web app</h2>
+        <p class="summary">A browser interface for a multi-agent LLM trading framework, so you can watch the analysts argue before they decide.</p>
+        <div class="tags">
+          <span class="tag hl">Python</span><span class="tag">JavaScript</span><span class="tag">Claude API</span><span class="tag">LLM agents</span>
+        </div>
+        <div class="story">
+          <div>
+            <h3>Problem</h3>
+            <p>The framework only ran from the command line. The interesting part, the agents debating each other, was hidden in log files.</p>
+          </div>
+          <div>
+            <h3>What I built</h3>
+            <ul>
+              <li>A Terminal view to start runs and follow them live</li>
+              <li>An Agent Room that shows each analyst's report and the debate</li>
+              <li>Free news sources and Claude-based sentiment</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Result</h3>
+            <p>A full analysis can now be started, followed, and reread from one page, with support for the latest Claude models.</p>
+          </div>
+        </div>
+        <p class="credit">Built on the open-source <a href="https://github.com/TauricResearch/TradingAgents">TradingAgents</a> framework by Tauric Research. The web app and the features below are my additions.</p>
+      </div>
+    </article>
+
+    <article class="case" id="paper-trading">
+      <div class="visual">
+        <div class="mock" aria-hidden="true">
+          <div class="mock-bar"><span></span><span></span><span></span></div>
+          <div class="check"><span>Decision is recent</span><span class="ok">✓ 1 day ago</span></div>
+          <div class="check"><span>Position under $5,000</span><span class="ok">✓ $3,120</span></div>
+          <div class="check"><span>Total exposure under $20,000</span><span class="ok">✓ $11,480</span></div>
+          <div class="check"><span>Daily loss limit</span><span class="ok">✓ −$140</span></div>
+          <div class="check"><span>Decision is clear</span><span class="no">✗ refused</span></div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span>03 · Feature</span><span>2026</span></div>
+        <h2>Paper trading with guardrails</h2>
+        <p class="summary">Turns an agent's BUY, SELL, or HOLD into a paper order, but only after it passes hard risk checks.</p>
+        <div class="tags">
+          <span class="tag hl">Python</span><span class="tag">Alpaca API</span><span class="tag">Risk management</span>
+        </div>
+        <div class="story">
+          <div>
+            <h3>Problem</h3>
+            <p>An LLM's decision is a paragraph of text. Acting on it blindly could mean trading on a stale or misread call.</p>
+          </div>
+          <div>
+            <h3>What I built</h3>
+            <ul>
+              <li>Paper-only Alpaca client for now; the goal is to make it work with live trading next</li>
+              <li>Limits per stock, total exposure, daily loss, and orders per day</li>
+              <li>Strict reading of saved decisions, refusing anything unclear</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Result</h3>
+            <p>Every order shows each check it passed or failed, and the user still places it with a click. Nothing trades on its own.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="strategy-tutor">
+      <div class="visual">
+        <div class="mock" aria-hidden="true">
+          <div class="mock-bar"><span></span><span></span><span></span></div>
+          <div class="chat">
+            <div class="bubble me">Why did the risk team block this trade?</div>
+            <div class="bubble tutor">The position would have been 40% of your portfolio. Let's look at why sizing matters…</div>
+            <div class="bubble me">Show me a lesson on position sizing</div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span>04 · Learning tool</span><span>2026</span></div>
+        <h2>Strategy tutor</h2>
+        <p class="summary">A teaching layer that explains what the agents did and why, aimed at people new to trading.</p>
+        <div class="tags">
+          <span class="tag hl">Python</span><span class="tag">Claude API</span><span class="tag">Education</span>
+        </div>
+        <div class="story">
+          <div>
+            <h3>Problem</h3>
+            <p>The agents' reports assume you already know the vocabulary. Beginners see the decision but not the reasoning.</p>
+          </div>
+          <div>
+            <h3>What I built</h3>
+            <ul>
+              <li>A teaching mode for the command line</li>
+              <li>An Ask the tutor chat box in the web app</li>
+              <li>A Strategies page with lessons and student strategies</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Result</h3>
+            <p>Each run doubles as a lesson. Learners can ask follow-up questions about the exact trade in front of them.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="scorecard">
+      <div class="visual">
+        <div class="mock" aria-hidden="true">
+          <div class="mock-bar"><span></span><span></span><span></span></div>
+          <div class="bars">
+            <div class="bar"><i style="height:62%"></i><i style="height:50%"></i></div>
+            <div class="bar"><i style="height:55%"></i><i style="height:50%"></i></div>
+            <div class="bar"><i style="height:48%"></i><i style="height:50%"></i></div>
+          </div>
+          <div class="bar-labels"><span>5 days</span><span>20 days</span><span>60 days</span></div>
+          <div style="margin-top:10px">Hit rate vs. SPY · sample data</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="meta"><span>05 · Analysis</span><span>In progress</span></div>
+        <h2>Decision scorecard</h2>
+        <p class="summary">Grades every saved BUY and SELL call against what the price actually did next.</p>
+        <div class="tags">
+          <span class="tag hl">Python</span><span class="tag">pandas</span><span class="tag">Backtesting</span>
+        </div>
+        <div class="story">
+          <div>
+            <h3>Problem</h3>
+            <p>It's easy to remember the good calls. Without a record, there's no honest way to know if the agents are any good.</p>
+          </div>
+          <div>
+            <h3>What I built</h3>
+            <ul>
+              <li>Compares each call with simply holding SPY</li>
+              <li>Checks 5, 20, and 60 trading days later</li>
+              <li>Lists HOLD and unclear calls without grading them</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Result</h3>
+            <p>Hit rates are only reported after 30 graded calls, since fewer than that is mostly luck.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="about" id="about">
+      <h2 class="eyebrow">About</h2>
+      <p class="intro">I'm Oswaldo, a UC Santa Cruz student from San Francisco who builds AI tools, robots, and circuits, while working my way through college.</p>
+      <p class="looking">Looking for product management and engineering internships.</p>
+      <div class="about-grid">
+        <div>
+          <h3>Experience</h3>
+          <ul>
+            <li><b>Lab Assistant, Electrical Engineering</b><span class="when">Kobayashi Lab, Baskin Engineering, UCSC · 2024 – present</span>Build experimental setups and breadboard circuits, repair and repurpose lab instruments, and record experiment data.</li>
+            <li><b>Assistant Software Engineer</b><span class="when">Basic Needs, UC Santa Cruz · 2023 – 2024</span>Managed configuration, databases, and servers, and reviewed Python, Java, C, and web code for errors.</li>
+          </ul>
+
+          <h3 style="margin-top: 40px">Hardware projects</h3>
+          <ul>
+            <li><b>Thermo Megabot</b><span class="when">UCSC-funded creative project</span>A mostly 3D-printed robot on a Raspberry Pi with speech recognition and a voice. I added an AI system that watches camera footage and raises alerts when objects match a shape, color, or pattern.</li>
+            <li><b>Ultrasonic levitator</b><span class="when">UCSC-funded creative project</span>Holds small objects in midair using standing sound waves, with no contact.</li>
+          </ul>
+
+          <h3 style="margin-top: 40px">What I do</h3>
+          <ul>
+            <li><b>AI assistants and agents</b>Python and the Claude API, from voice-and-vision assistants to multi-agent trading analysis.</li>
+            <li><b>Computer vision</b>Real-time hand gesture, face, and object detection with OpenCV and MediaPipe.</li>
+            <li><b>Full-stack web apps</b>Python back ends with JavaScript front ends, including Flask and Vue.js.</li>
+            <li><b>Electronics and robotics</b>Circuits, lab instruments, Raspberry Pi builds, and MATLAB.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Education</h3>
+          <ul class="edu">
+            <li><b>University of California, Santa Cruz</b>B.S. Technology and Information Management<br>Minor in Electrical Engineering<br>GPA 3.6 · Expected 2027</li>
+          </ul>
+          <h3 style="margin-top: 40px">Skills</h3>
+          <div class="tags skills"><span class="tag">Python</span><span class="tag">C++</span><span class="tag">MATLAB</span><span class="tag">JavaScript</span><span class="tag">HTML/CSS</span><span class="tag">Claude API</span><span class="tag">OpenCV</span><span class="tag">Raspberry Pi</span></div>
+
+          <h3 style="margin-top: 40px">Contact</h3>
+          <ul class="contact-list">
+            <li><a href="mailto:oswaldogcruz@icloud.com">oswaldogcruz@icloud.com</a></li>
+            <li><a href="tel:+14153479420">(415) 347-9420</a></li>
+            <li><a href="https://www.linkedin.com/in/oszzy-cruz">linkedin.com/in/oszzy-cruz</a></li>
+            <li><a href="https://github.com/oszzycruzq">github.com/oszzycruzq</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>
